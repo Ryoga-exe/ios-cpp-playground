@@ -6,13 +6,11 @@
 #import "GameViewController.h"
 #import <MetalKit/MetalKit.h>
 
-// C++ Sample
-extern "C" {
-  void SampleApp_Initialize(int w, int h, float scale);
-  void SampleApp_Resize(int w, int h, float scale);
-  void SampleApp_Frame(double dt, float* r, float* g, float* b);
-  void SampleApp_Shutdown();
-}
+extern "C" void Main(); // ユーザ関数
+
+#include <thread>
+#include "FrameGate.hpp"
+#include "SharedState.hpp"
 
 @interface GameViewController () <MTKViewDelegate>
 @end
@@ -20,7 +18,7 @@ extern "C" {
 @implementation GameViewController {
   MTKView *mtk;
   id<MTLCommandQueue> queue;
-  CFTimeInterval lastTS;
+  BOOL started;
 }
 
 - (void)viewDidLoad {
@@ -37,26 +35,30 @@ extern "C" {
   [self.view addSubview:mtk];
 
   queue = [dev newCommandQueue];
-  lastTS = CACurrentMediaTime();
-
-  CGSize ds = mtk.drawableSize;
-  SampleApp_Initialize((int)ds.width, (int)ds.height, (float)mtk.contentScaleFactor);
 }
 
-- (void)dealloc { SampleApp_Shutdown(); }
+- (void)viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  if (!started) {
+    started = YES;
+    // ユーザの Main を別スレッドで起動（UIスレッドは描画更新を続ける）
+    std::thread([]{ Main(); }).detach();
+  }
+}
 
 - (void)mtkView:(MTKView *)view drawableSizeWillChange:(CGSize)size {
-  SampleApp_Resize((int)size.width, (int)size.height, (float)view.contentScaleFactor);
+  // 将来: Resize 通知を C++ 側へ渡すならここで
 }
 
 - (void)drawInMTKView:(MTKView *)view {
-  CFTimeInterval now = CACurrentMediaTime();
-  double dt = now - lastTS; lastTS = now;
+  // 共有ステートから背景色を読む
+  auto& s = ryoga::ios::shared();
+  view.clearColor = MTLClearColorMake(
+    s.r.load(std::memory_order_relaxed),
+    s.g.load(std::memory_order_relaxed),
+    s.b.load(std::memory_order_relaxed), 1.0);
 
-  float r=0.08f,g=0.08f,b=0.1f;
-  SampleApp_Frame(dt, &r, &g, &b);
-  view.clearColor = MTLClearColorMake(r, g, b, 1.0);
-
+  // clear & present
   MTLRenderPassDescriptor *rp = view.currentRenderPassDescriptor;
   if (!rp || !view.currentDrawable) return;
 
@@ -65,5 +67,8 @@ extern "C" {
   [enc endEncoding];
   [cb presentDrawable:view.currentDrawable];
   [cb commit];
+
+  // 次フレームをユーザ側に通知
+  ryoga::ios::gate().signal();
 }
 @end
