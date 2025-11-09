@@ -6,8 +6,17 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		29E51E862EC10A3B003ACEA2 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29E51E852EC10A3B003ACEA2 /* Metal.framework */; };
+		29E51E882EC10A43003ACEA2 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29E51E872EC10A43003ACEA2 /* MetalKit.framework */; };
+		29E51E8A2EC10A48003ACEA2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29E51E892EC10A48003ACEA2 /* QuartzCore.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		29E51E502EC107C0003ACEA2 /* ios-cpp-playground.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ios-cpp-playground.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		29E51E852EC10A3B003ACEA2 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
+		29E51E872EC10A43003ACEA2 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
+		29E51E892EC10A48003ACEA2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -23,6 +32,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29E51E862EC10A3B003ACEA2 /* Metal.framework in Frameworks */,
+				29E51E882EC10A43003ACEA2 /* MetalKit.framework in Frameworks */,
+				29E51E8A2EC10A48003ACEA2 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -33,6 +45,7 @@
 			isa = PBXGroup;
 			children = (
 				29E51E522EC107C0003ACEA2 /* ios-cpp-playground */,
+				29E51E842EC10A3B003ACEA2 /* Frameworks */,
 				29E51E512EC107C0003ACEA2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -43,6 +56,16 @@
 				29E51E502EC107C0003ACEA2 /* ios-cpp-playground.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		29E51E842EC10A3B003ACEA2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				29E51E892EC10A48003ACEA2 /* QuartzCore.framework */,
+				29E51E872EC10A43003ACEA2 /* MetalKit.framework */,
+				29E51E852EC10A3B003ACEA2 /* Metal.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
