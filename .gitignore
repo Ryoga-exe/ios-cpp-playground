@@ -1,17 +1,25 @@
-.DS_Store
-
-# User settings
+# Xcode
+xcshareddata/
 xcuserdata/
+*.dSYM
+*.xcworkspacedata
 
-# Xcode 8 and earlier
-*.xcscmblueprint
-*.xccheckout
+# macOS
+# https://github.com/github/gitignore/blob/master/Global/macOS.gitignore
+.DS_Store
+.AppleDouble
+.LSOverride
 
-# Xcode Patch
-*.xcodeproj/*
-!*.xcodeproj/project.pbxproj
-!*.xcodeproj/xcshareddata/
-!*.xcodeproj/project.xcworkspace/
-!*.xcworkspace/contents.xcworkspacedata
-/*.gcno
-**/xcshareddata/WorkspaceSettings.xcsettings
+# CMake
+# https://github.com/github/gitignore/blob/master/CMake.gitignore
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
